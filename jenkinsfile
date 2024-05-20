@@ -1,0 +1,14 @@
+node {
+    def mavenhome = tool name:'maven 3.9.6'
+    stage( 'gitcheckoutcode' )
+    {
+       git credentialsId: 'gitpwd', url: 'https://github.com/kusuma13579/helloworld.git'
+    }
+    stage ('maven build')
+    sh "$mavenhome/bin/mvn clean install"
+     stage ('sonarqube analasys')
+    sh "$mavenhome/bin/mvn sonar:sonar"
+    stage ('nexus artifactid upload')
+    sh "$mavenhome/bin/mvn deploy"
+   
+}
